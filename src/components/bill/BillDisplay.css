@@ -1,0 +1,49 @@
+/* Custom styles for the bill display */
+.card {
+	border-radius: 8px;
+	border: 1px solid rgba(0, 0, 0, 0.125);
+  }
+  
+  .card-header {
+	border-radius: 7px 7px 0 0;
+  }
+  
+  .table th {
+	background-color: #f8f9fa;
+	font-weight: 600;
+  }
+  
+  .table td, .table th {
+	padding: 12px;
+	vertical-align: middle;
+  }
+  
+  .badge {
+	padding: 8px 12px;
+	font-weight: 500;
+  }
+  
+  @media print {
+	.container {
+	  width: 100%;
+	  max-width: none;
+	}
+	
+	.card {
+	  border: none;
+	  box-shadow: none;
+	}
+	
+	.card-header {
+	  background-color: #fff !important;
+	  color: #000 !important;
+	}
+	
+	.table {
+	  border: 1px solid #dee2e6;
+	}
+	
+	.table td, .table th {
+	  border: 1px solid #dee2e6;
+	}
+  }

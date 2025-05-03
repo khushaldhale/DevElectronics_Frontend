@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
-
-
 export const login = createAsyncThunk("login", async (data, { rejectWithValue }) => {
 	try {
 
@@ -25,6 +23,27 @@ export const login = createAsyncThunk("login", async (data, { rejectWithValue })
 		return rejectWithValue(error)
 	}
 })
+
+
+export const logout = createAsyncThunk("logout", async (_, { rejectWithValue }) => {
+	try {
+
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, {
+			method: "GET",
+			credentials: "include"
+		})
+
+		if (!response.ok) {
+			return rejectWithValue(await response.json())
+		}
+
+		return await response.json()
+	}
+	catch (error) {
+		return rejectWithValue(error)
+	}
+})
+
 
 
 
@@ -53,7 +72,8 @@ export const authSlice = createSlice(
 					console.log(" action is  : ", action.payload)
 					let data = {
 						fname: action.payload.data.fname,
-						lname: action.payload.data.lname
+						lname: action.payload.data.lname,
+						accountType: action.payload.data.accountType
 					}
 
 					state.isLoggedIn = true;
@@ -65,6 +85,25 @@ export const authSlice = createSlice(
 				.addCase(login.rejected, (state, action) => {
 					state.isError = true;
 					state.isLoading = false;
+				})
+
+
+			builder.addCase(logout.pending, (state) => {
+				state.isLoading = true;
+				state.isError = false;
+			})
+				.addCase(logout.fulfilled, (state, action) => {
+					state.isLoading = false;
+					state.isError = false;
+					state.userInfo = {};
+					state.isLoggedIn = false;
+					localStorage.removeItem("userInfo");
+					localStorage.removeItem("isLoggedIn")
+					console.log("logged out : ", action.payload)
+				})
+				.addCase(logout.rejected, (state, action) => {
+					state.isLoading = false;
+					state.isError = true;
 				})
 		}
 	}
