@@ -1,8 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
+import { toast } from "react-toastify";
 
 const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    contact: "",
+    subject: "",
+    message: "",
+  });
+
+  function changeHandler(event) {
+    const { name, type, value } = event.target;
+
+    setFormData((prevData) => {
+      return {
+        ...prevData,
+        [name]: value,
+      };
+    });
+  }
+
+  async function submitHandler(event) {
+    event.preventDefault();
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/contacts`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      setFormData({
+        fname: "",
+        lname: "",
+        email: "",
+        contact: "",
+        subject: "",
+        message: "",
+      });
+
+      if (!response.ok) {
+        toast.error("Unable to contact");
+        return;
+      }
+
+      toast.success("Query is submitted successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <section id="contact" className="section bg-light">
       <div className="container">
@@ -41,7 +97,8 @@ const ContactUs = () => {
                 <div>
                   <h4 className="h6 fw-bold">Our Location</h4>
                   <p className="text-muted mb-0">
-                    123 Audio Street, Soundville, SV 12345
+                    331/332/A, KOSHTI GALLI, RAVIWAR PETH, KARAD, SATARA, MH -
+                    415110
                   </p>
                 </div>
               </div>
@@ -54,7 +111,7 @@ const ContactUs = () => {
                 </div>
                 <div>
                   <h4 className="h6 fw-bold">Phone Number</h4>
-                  <p className="text-muted mb-0">+1 (555) 123-4567</p>
+                  <p className="text-muted mb-0">8805802199</p>
                 </div>
               </div>
 
@@ -66,7 +123,7 @@ const ContactUs = () => {
                 </div>
                 <div>
                   <h4 className="h6 fw-bold">Email Address</h4>
-                  <p className="text-muted mb-0">info@develectronics.com</p>
+                  <p className="text-muted mb-0">devdas.repal81@gmail.com</p>
                 </div>
               </div>
 
@@ -90,7 +147,7 @@ const ContactUs = () => {
 
               <div className="card border-0 shadow-sm mt-5 overflow-hidden">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.3040591144004!2d-73.98825118459412!3d40.748440679326604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1645048203325!5m2!1sen!2sus"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3809.5543609357373!2d74.17907257462487!3d17.28878180563946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc182488c17210f%3A0x90fe7aea0db9b480!2sKoshti%20Galli%2C%20Karad%2C%20Maharashtra%20415110!5e0!3m2!1sen!2sin!4v1746333396060!5m2!1sen!2sin"
                   width="100%"
                   height="300"
                   style={{ border: 0 }}
@@ -113,7 +170,7 @@ const ContactUs = () => {
               <div className="card-body p-4 p-lg-5">
                 <h3 className="h4 fw-bold mb-4">Send us a Message</h3>
 
-                <form>
+                <form onSubmit={submitHandler}>
                   <div className="row g-3">
                     <div className="col-md-6">
                       <div className="form-floating mb-3">
@@ -121,7 +178,10 @@ const ContactUs = () => {
                           type="text"
                           className="form-control"
                           id="firstName"
+                          name="fname"
                           placeholder="First Name"
+                          onChange={changeHandler}
+                          value={formData.fname}
                         />
                         <label htmlFor="firstName">First Name</label>
                       </div>
@@ -133,6 +193,9 @@ const ContactUs = () => {
                           className="form-control"
                           id="lastName"
                           placeholder="Last Name"
+                          name="lname"
+                          onChange={changeHandler}
+                          value={formData.lname}
                         />
                         <label htmlFor="lastName">Last Name</label>
                       </div>
@@ -147,6 +210,9 @@ const ContactUs = () => {
                           className="form-control"
                           id="email"
                           placeholder="Email Address"
+                          name="email"
+                          onChange={changeHandler}
+                          value={formData.email}
                         />
                         <label htmlFor="email">Email Address</label>
                       </div>
@@ -158,6 +224,9 @@ const ContactUs = () => {
                           className="form-control"
                           id="phone"
                           placeholder="Phone Number"
+                          name="contact"
+                          onChange={changeHandler}
+                          value={formData.contact}
                         />
                         <label htmlFor="phone">Phone Number</label>
                       </div>
@@ -165,11 +234,21 @@ const ContactUs = () => {
                   </div>
 
                   <div className="form-floating mb-3">
-                    <select className="form-select" id="subject">
-                      <option>Product Inquiry</option>
-                      <option>Repair Service</option>
-                      <option>Custom Installation</option>
-                      <option>Other</option>
+                    <select
+                      name="subject"
+                      onChange={changeHandler}
+                      value={formData.subject}
+                      className="form-select"
+                      id="subject"
+                    >
+                      <option value={""}>Select any option</option>
+
+                      <option value={"Product Inquiry"}>Product Inquiry</option>
+                      <option value={"Repair Service"}>Repair Service</option>
+                      <option value={"Custom Installation"}>
+                        Custom Installation
+                      </option>
+                      <option value={"Other"}>Other</option>
                     </select>
                     <label htmlFor="subject">Subject</label>
                   </div>
@@ -180,6 +259,9 @@ const ContactUs = () => {
                       id="message"
                       placeholder="Your Message"
                       style={{ height: "150px" }}
+                      name="message"
+                      onChange={changeHandler}
+                      value={formData.message}
                     ></textarea>
                     <label htmlFor="message">Your Message</label>
                   </div>

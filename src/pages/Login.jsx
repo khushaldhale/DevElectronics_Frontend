@@ -4,8 +4,24 @@ import { UserCircle, Lock, LogIn } from "lucide-react";
 import withForm from "../hoc/withForm";
 import { login } from "../redux/slices/authSlice";
 import Logo from "../components/layout/Logo";
+import { useSelector } from "react-redux";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorDisplay from "../components/ErrorDisplay";
 
 const Login = ({ changeHandler, submitHandler, formData }) => {
+  const isLoading = useSelector((state) => {
+    return state?.auth?.isLoading;
+  });
+  const isError = useSelector((state) => {
+    return state?.auth?.isError;
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner></LoadingSpinner>;
+  } else if (isError) {
+    return <ErrorDisplay></ErrorDisplay>;
+  }
+
   return (
     <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light bg-noise">
       <div className="container">
@@ -131,5 +147,5 @@ export default withForm(
     password: "",
   },
   login,
-  "/dashboard"
+  "/dashboard/items"
 );

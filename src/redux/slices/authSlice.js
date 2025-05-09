@@ -44,9 +44,6 @@ export const logout = createAsyncThunk("logout", async (_, { rejectWithValue }) 
 	}
 })
 
-
-
-
 const initialState = {
 	isLoading: null,
 	isError: null,
@@ -71,9 +68,9 @@ export const authSlice = createSlice(
 
 					console.log(" action is  : ", action.payload)
 					let data = {
-						fname: action.payload.data.fname,
-						lname: action.payload.data.lname,
-						accountType: action.payload.data.accountType
+						fname: action?.payload?.data?.fname,
+						lname: action?.payload?.data?.lname,
+						accountType: action?.payload?.data?.accountType
 					}
 
 					state.isLoggedIn = true;
@@ -99,7 +96,7 @@ export const authSlice = createSlice(
 					state.isLoggedIn = false;
 					localStorage.removeItem("userInfo");
 					localStorage.removeItem("isLoggedIn")
-					console.log("logged out : ", action.payload)
+
 				})
 				.addCase(logout.rejected, (state, action) => {
 					state.isLoading = false;

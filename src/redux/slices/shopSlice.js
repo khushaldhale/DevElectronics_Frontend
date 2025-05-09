@@ -22,9 +22,6 @@ export const getShop = createAsyncThunk("getShop", async (_, { rejectWithValue }
 	}
 })
 
-
-
-
 const initialState = {
 	isLoading: null,
 	isError: null,
@@ -43,7 +40,7 @@ export const shopSlice = createSlice(
 				.addCase(getShop.fulfilled, (state, action) => {
 					state.isLoading = false;
 					state.isError = false;
-					state.shopDetails = action.payload.data
+					state.shopDetails = action?.payload?.data
 				})
 				.addCase(getShop.rejected, (state, action) => {
 					state.isLoading = false;

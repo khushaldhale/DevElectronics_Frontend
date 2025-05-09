@@ -89,15 +89,15 @@ const AboutUs = () => {
               >
                 <div className="d-flex align-items-center mb-3">
                   <img
-                    src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                    src="devdas.jpeg"
                     alt="John Doe"
                     className="rounded-circle me-3"
-                    width="50"
-                    height="50"
+                    width="80"
+                    height="80"
                     style={{ objectFit: "cover" }}
                   />
                   <div>
-                    <h5 className="mb-0 fw-bold">John Doe</h5>
+                    <h5 className="mb-0 fw-bold">Devdas Repal</h5>
                     <span className="small text-muted">Founder & CEO</span>
                   </div>
                 </div>

@@ -1,18 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Logo from "./Logo";
-import {
-  MapPin,
-  Phone,
-  Mail,
-  Facebook,
-  Instagram,
-  Twitter,
-  Youtube,
-} from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
 
   return (
     <footer className="bg-dark text-white pt-5 pb-3">
@@ -31,20 +25,6 @@ const Footer = () => {
                 professional DJ gear, and expert repair services. Your sound,
                 our passion.
               </p>
-              <div className="d-flex gap-3">
-                <a href="#" className="text-white hover-bright">
-                  <Facebook size={20} />
-                </a>
-                <a href="#" className="text-white hover-bright">
-                  <Instagram size={20} />
-                </a>
-                <a href="#" className="text-white hover-bright">
-                  <Twitter size={20} />
-                </a>
-                <a href="#" className="text-white hover-bright">
-                  <Youtube size={20} />
-                </a>
-              </div>
             </motion.div>
           </div>
 
@@ -111,15 +91,18 @@ const Footer = () => {
               <h5 className="mb-4 fw-bold">Contact Us</h5>
               <div className="mb-3 d-flex align-items-start">
                 <MapPin size={20} className="me-2 text-accent mt-1" />
-                <span>123 Audio Street, Soundville, SV 12345</span>
+                <span>
+                  331/332/A, KOSHTI GALLI, RAVIWAR PETH, KARAD, SATARA, MH -
+                  415110
+                </span>
               </div>
               <div className="mb-3 d-flex align-items-center">
                 <Phone size={20} className="me-2 text-accent" />
-                <span>+1 (555) 123-4567</span>
+                <span>8805802199</span>
               </div>
               <div className="mb-3 d-flex align-items-center">
                 <Mail size={20} className="me-2 text-accent" />
-                <span>info@develectronics.com</span>
+                <span>devdas.repal81@gmail.com</span>
               </div>
             </motion.div>
           </div>
@@ -135,17 +118,30 @@ const Footer = () => {
               <p className="mb-3">
                 Subscribe to get the latest deals and updates!
               </p>
-              <form>
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (email) {
+                    toast.success(
+                      "Subscribed to News Letter for upcoming updates"
+                    );
+                  }
+                }}
+              >
                 <div className="input-group mb-3">
                   <input
                     type="email"
                     className="form-control"
                     placeholder="Your email"
                     aria-label="Your email"
+                    value={email}
+                    onChange={(event) => {
+                      setEmail(event.target.value);
+                    }}
                   />
                   <button
-                    className="btn btn-accent"
-                    type="button"
+                    className="btn btn-primary text-white"
+                    type="submit"
                     id="button-addon2"
                   >
                     Subscribe
@@ -164,7 +160,7 @@ const Footer = () => {
           viewport={{ once: true }}
         >
           <p className="small mb-0">
-            © {currentYear} Dev Electronics. All rights reserved.
+            © {2025} Dev Electronics. All rights reserved.
           </p>
         </motion.div>
       </div>

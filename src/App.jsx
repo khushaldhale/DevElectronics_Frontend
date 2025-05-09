@@ -8,13 +8,22 @@ import "./App.css";
 import GenerateBill from "./components/bill/GenerateBill";
 import Bills from "./components/bill/Bills";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Categories from "./components/categories/Categories";
+import CreateCategory from "./components/categories/createCategory";
+import { ToastContainer, toast } from "react-toastify";
+import NotFound from "./components/NoFound";
+import Search from "./components/search/Search";
 
 const App = () => {
   return (
     <div className="app-container">
       <Routes>
+        {/* open  routes */}
         <Route path="/" element={<Home></Home>}></Route>
+        <Route path="/search" element={<Search></Search>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
+        <Route path="/products" element={<Items></Items>}></Route>
+
         <Route
           path="/dashboard"
           element={
@@ -65,8 +74,29 @@ const App = () => {
               </ProtectedRoute>
             }
           ></Route>
+
+          <Route
+            path="categories"
+            element={
+              <ProtectedRoute adminRoute={true}>
+                <Categories></Categories>
+              </ProtectedRoute>
+            }
+          ></Route>
+
+          <Route
+            path="categories/create"
+            element={
+              <ProtectedRoute adminRoute={true}>
+                <CreateCategory></CreateCategory>
+              </ProtectedRoute>
+            }
+          ></Route>
         </Route>
+
+        <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
+      <ToastContainer />
     </div>
   );
 };

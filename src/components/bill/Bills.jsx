@@ -2,19 +2,32 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBills } from "../../redux/slices/billSlice";
 import BillDisplay from "./BillDisplay";
+import LoadingSpinner from "../LoadingSpinner";
+import ErrorDisplay from "../ErrorDisplay";
 
 const Bills = () => {
   const bills = useSelector((state) => {
-    return state.bill.bills;
+    return state?.bill?.bills;
   });
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllBills()).then((action) => {
-      console.log("action : ", action.payload);
-    });
+    dispatch(getAllBills()).then((action) => {});
   }, []);
 
+  const isLoading = useSelector((state) => {
+    return state.bill.isLoading;
+  });
+
+  const isError = useSelector((state) => {
+    return state.bill.isError;
+  });
+
+  if (isLoading) {
+    return <LoadingSpinner></LoadingSpinner>;
+  } else if (isError) {
+    return <ErrorDisplay></ErrorDisplay>;
+  }
   return (
     <div className="container-fluid py-4">
       <div className="row">

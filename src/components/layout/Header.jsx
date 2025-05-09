@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Logo from "./Logo";
 import { Menu, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,7 +57,6 @@ const Header = () => {
   const menuItems = [
     { name: "Home", id: "home" },
     { name: "Services", id: "services" },
-    { name: "Products", id: "products" },
     { name: "About Us", id: "about" },
     { name: "Contact", id: "contact" },
   ];
@@ -109,6 +111,43 @@ const Header = () => {
                   </a>
                 </motion.li>
               ))}
+
+              <motion.li
+                className="nav-item"
+                variants={navItemVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <NavLink
+                  className={`nav-link ${
+                    scrolled ? "text-dark" : "text-white"
+                  }`}
+                  to={"/products"}
+                  onClick={() => {
+                    navigate("/products");
+                  }}
+                >
+                  Products
+                </NavLink>
+              </motion.li>
+              <motion.li
+                className="nav-item"
+                variants={navItemVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <NavLink
+                  className={`nav-link ${
+                    scrolled ? "text-dark" : "text-white"
+                  }`}
+                  to={"/login"}
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  Login
+                </NavLink>
+              </motion.li>
             </ul>
           </div>
         </div>

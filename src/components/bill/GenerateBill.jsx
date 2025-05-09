@@ -4,9 +4,9 @@ import { getShop } from "../../redux/slices/shopSlice";
 import { getAllItems } from "../../redux/slices/itemSlice";
 import { createBill } from "../../redux/slices/billSlice";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../LoadingSpinner";
+import ErrorDisplay from "../ErrorDisplay";
 
-//  total_amount should not be set and
-//  handle gst ,  checked or not , that case
 const GenerateBill = () => {
   const [formData, setFormData] = useState({
     shop_details: "",
@@ -28,16 +28,23 @@ const GenerateBill = () => {
     item_amount: 0,
   });
 
-  const items = useSelector((state) => state.item.items);
-  const shop = useSelector((state) => state.shop.shopDetails);
+  const items = useSelector((state) => state?.item?.items);
+  const shop = useSelector((state) => state?.shop?.shopDetails);
+  const isLoading = useSelector((state) => {
+    return state.bill.isLoading;
+  });
+
+  const isError = useSelector((state) => {
+    return state.bill.isError;
+  });
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getShop()).then((action) => {
-      if (action.payload.success) {
+      if (action?.payload?.success) {
         setFormData((prevData) => ({
           ...prevData,
-          shop_details: action.payload.data._id,
+          shop_details: action?.payload?.data?._id,
         }));
       }
     });
@@ -70,7 +77,7 @@ const GenerateBill = () => {
     }
     if (name === "quantity") {
       let required_item = items.filter((item, index) => {
-        if (item._id === productData.item_info) {
+        if (item._id === productData?.item_info) {
           return true;
         }
       });
@@ -78,7 +85,6 @@ const GenerateBill = () => {
       if (value !== "") {
         //  update this quantity in the form
         let item_amount = required_item[0]?.price * +value;
-        console.log("data ", required_item, typeof +value, +value, item_amount);
         setProductData((prevData) => {
           return {
             ...prevData,
@@ -163,12 +169,21 @@ const GenerateBill = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
+    console.log("form data :", formData);
+
     dispatch(createBill(formData)).then((action) => {
       if (action.payload.success) {
+        console.log("data : ", action.payload.data);
         navigate("/dashboard/bills");
       }
     });
   };
+
+  if (isLoading) {
+    return <LoadingSpinner></LoadingSpinner>;
+  } else if (isError) {
+    return <ErrorDisplay></ErrorDisplay>;
+  }
 
   return (
     <div className="container py-4">

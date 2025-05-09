@@ -8,29 +8,29 @@ const Testimonials = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Michael Johnson",
-      role: "Professional DJ",
+      name: "Khushal Dhale",
+      role: "Home Theater Enthusiast",
       text: "Dev Electronics has been my go-to for DJ equipment for years. The quality of their products and expertise of their staff are unmatched. They helped me set up my entire studio with top-notch gear.",
       image:
-        "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        " https://skiblue.co.uk/wp-content/uploads/2015/06/dummy-profile.png",
       rating: 5,
     },
     {
       id: 2,
-      name: "Emily Williams",
-      role: "Audio Engineer",
+      name: "Kunal Sharma",
+      role: "Professional DJ",
       text: "When my studio monitors needed repair, Dev Electronics had them fixed in no time. Their technical expertise and fast turnaround saved my recording session. Truly a lifesaver!",
       image:
-        "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        " https://skiblue.co.uk/wp-content/uploads/2015/06/dummy-profile.png",
       rating: 5,
     },
     {
       id: 3,
-      name: "David Chen",
+      name: "Shreyash Patil",
       role: "Home Theater Enthusiast",
       text: "The custom installation team at Dev Electronics transformed my living room into an immersive home theater experience. Their attention to detail and sound calibration skills are exceptional.",
       image:
-        "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=1600",
+        " https://skiblue.co.uk/wp-content/uploads/2015/06/dummy-profile.png",
       rating: 5,
     },
   ];

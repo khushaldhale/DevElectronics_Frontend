@@ -8,14 +8,20 @@ import {
   Settings,
   LogOut,
   ReceiptText,
+  ChartColumnStacked,
+  BadgePlus,
 } from "lucide-react";
 import Logo from "../components/layout/Logo";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const userInfo = useSelector((state) => {
+    return state.auth.userInfo;
+  });
 
   const navLinkClass = ({ isActive }) =>
     `d-flex align-items-center py-3 px-4 text-decoration-none ${
@@ -40,10 +46,13 @@ const Dashboard = () => {
 
             <nav className="mb-5">
               <div className="text-muted small mb-3">MAIN MENU</div>
-              <NavLink to="/dashboard" end className={navLinkClass}>
+              {/*  willl show analytics of sales later on here */}
+
+              {/* <NavLink to="/dashboard" end className={navLinkClass}>
                 <LayoutDashboard size={20} className="me-3" />
                 Dashboard Overview
-              </NavLink>
+              </NavLink> */}
+
               <NavLink to="/dashboard/items" end className={navLinkClass}>
                 <Package size={20} className="me-3" />
                 Manage Items
@@ -64,6 +73,20 @@ const Dashboard = () => {
               <NavLink to="/dashboard/bills" end className={navLinkClass}>
                 <ReceiptText size={20} className="me-3" />
                 Manage Bills
+              </NavLink>
+
+              <NavLink
+                to="/dashboard/categories/create"
+                end
+                className={navLinkClass}
+              >
+                <BadgePlus size={20} className="me-3" />
+                Create Category
+              </NavLink>
+
+              <NavLink to="/dashboard/categories" end className={navLinkClass}>
+                <ChartColumnStacked size={20} className="me-3" />
+                Manage Categories
               </NavLink>
             </nav>
 
@@ -134,8 +157,10 @@ const Dashboard = () => {
                     ></span>
                   </div>
                   <div>
-                    <h6 className="mb-0 fw-semibold">John Doe</h6>
-                    <small className="text-muted">Admin</small>
+                    <h6 className="mb-0 fw-semibold">
+                      {userInfo.fname + "  " + userInfo.lname}
+                    </h6>
+                    <small className="text-muted">{userInfo.accountType}</small>
                   </div>
                 </div>
               </div>

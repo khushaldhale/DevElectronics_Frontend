@@ -114,12 +114,12 @@ const Services = () => {
                   </div>
                   <h3 className="h4 fw-bold mb-3">{service.title}</h3>
                   <p className="text-muted mb-4">{service.description}</p>
-                  <a
+                  {/* <a
                     href="#"
                     className={`btn btn-link text-${service.color} p-0 text-decoration-none d-flex align-items-center`}
                   >
                     Learn More <ArrowRight size={16} className="ms-2" />
-                  </a>
+                  </a> */}
                 </div>
               </div>
             </motion.div>
@@ -146,7 +146,11 @@ const Services = () => {
                       your specific needs. From home theaters to professional
                       studio setups, we've got you covered.
                     </p>
-                    <a href="#contact" className="btn btn-accent">
+                    <a
+                      href="#contact"
+                      style={{ marginLeft: "-14px" }}
+                      className="btn  btn-accent"
+                    >
                       Get in Touch
                     </a>
                   </div>
