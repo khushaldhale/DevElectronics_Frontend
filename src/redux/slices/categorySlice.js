@@ -69,7 +69,6 @@ export const getItemsByCategory = createAsyncThunk("getItemsByCategory", async (
 			credentials: "include"
 		})
 
-
 		if (!response.ok) {
 			return rejectWithValue(await response.json())
 		}
@@ -156,7 +155,7 @@ export const categorySlice = createSlice(
 				.addCase(getItemsByCategory.fulfilled, (state, action) => {
 					state.isLoading = false;
 					state.isError = false;
-					state.particularCatItems = action?.payload?.data?.items;
+					state.particularCatItems = action?.payload?.data;
 				})
 				.addCase(getItemsByCategory.rejected, (state, action) => {
 					state.isLoading = false;

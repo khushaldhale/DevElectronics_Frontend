@@ -111,7 +111,7 @@ const ContactUs = () => {
                 </div>
                 <div>
                   <h4 className="h6 fw-bold">Phone Number</h4>
-                  <p className="text-muted mb-0">8805802199</p>
+                  <p className="text-muted mb-0">9067577171</p>
                 </div>
               </div>
 

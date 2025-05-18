@@ -86,6 +86,7 @@ export const billSlice = createSlice(
 					state.isLoading = false;
 					state.isError = false;
 					state.bills = action?.payload?.data
+
 				})
 				.addCase(getAllBills.rejected, (state, action) => {
 					state.isLoading = false;

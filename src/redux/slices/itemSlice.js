@@ -139,12 +139,32 @@ export const getSuggestions = createAsyncThunk("getSuggestions", async (data, { 
 })
 
 
+export const getItemsByCompany = createAsyncThunk("getItemsByCompany", async (data, { rejectWithValue }) => {
+	try {
+
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/items/company/${data.company_id}`, {
+			method: "GET",
+			credentials: "include"
+		})
+		if (!response.ok) {
+			return rejectWithValue(await response.json())
+		}
+
+		return await response.json()
+
+	}
+	catch (error) {
+		return rejectWithValue(error)
+	}
+})
+
 const initialState = {
 	isLoading: null,
 	isError: null,
 	items: [],
 	particularItem: {},
-	suggestions: []
+	suggestions: [],
+	company_items: []
 }
 
 export const itemSlice = createSlice(
@@ -259,10 +279,26 @@ export const itemSlice = createSlice(
 					// state.isLoading = false;
 					state.isError = false;
 					state.suggestions = action?.payload?.data;
-					console.log("data from api : ", action?.payload?.data)
 				})
 				.addCase(getSuggestions.rejected, (state, action) => {
 					// state.isLoading = false;
+					state.isError = true;
+				})
+
+
+
+			builder.addCase(getItemsByCompany.pending, (state) => {
+				state.isLoading = true;
+				state.isError = false;
+			})
+				.addCase(getItemsByCompany.fulfilled, (state, action) => {
+					state.isLoading = false;
+					state.isError = false;
+					state.company_items = action.payload.data;
+
+				})
+				.addCase(getItemsByCompany.rejected, (state, action) => {
+					state.isLoading = false;
 					state.isError = true;
 				})
 		}

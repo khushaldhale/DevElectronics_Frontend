@@ -96,7 +96,7 @@ const Hero = () => {
           >
             <div className="position-relative">
               <img
-                src="https://images.pexels.com/photos/16953468/pexels-photo-16953468/free-photo-of-back-view-of-man-in-headphones.jpeg?auto=compress&cs=tinysrgb&w=600"
+                src="/boy.jpeg"
                 alt="High-end audio equipment"
                 className="img-fluid rounded-4 shadow h-75"
               />

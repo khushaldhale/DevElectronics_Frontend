@@ -4,6 +4,7 @@ import itemSlice from "./slices/itemSlice";
 import shopSlice from "./slices/shopSlice";
 import billSlice from "./slices/billSlice";
 import categorySlice from "./slices/categorySlice";
+import companySlice from "./slices/companySlice";
 
 
 
@@ -14,7 +15,8 @@ export const store = configureStore(
 			item: itemSlice,
 			shop: shopSlice,
 			bill: billSlice,
-			category: categorySlice
+			category: categorySlice,
+			company: companySlice
 		}
 	}
 )

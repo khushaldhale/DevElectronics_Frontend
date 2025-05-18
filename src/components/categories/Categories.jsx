@@ -7,6 +7,8 @@ import {
   getAllCategories,
   getItemsByCategory,
 } from "../../redux/slices/categorySlice";
+import { toast } from "react-toastify";
+import { IndianRupee } from "lucide-react";
 
 const Categories = () => {
   const categories = useSelector((state) => state?.category?.categories);
@@ -96,7 +98,11 @@ const Categories = () => {
                               onClick={() => {
                                 dispatch(
                                   deleteCategory({ _id: category?._id })
-                                );
+                                ).then((action) => {
+                                  if (action.payload.success) {
+                                    toast.success(action.payload.message);
+                                  }
+                                });
                               }}
                             >
                               <Trash2 size={18} />
@@ -161,11 +167,11 @@ const Categories = () => {
                             </p>
                             <div className="d-flex justify-content-between align-items-center">
                               <span className="fs-5 text-primary">
-                                ${item.price}
+                                <IndianRupee
+                                  style={{ height: "25px", width: "18px" }}
+                                ></IndianRupee>{" "}
+                                {item.item_price}
                               </span>
-                              <button className="btn btn-primary btn-sm">
-                                View Details
-                              </button>
                             </div>
                           </div>
                         </div>

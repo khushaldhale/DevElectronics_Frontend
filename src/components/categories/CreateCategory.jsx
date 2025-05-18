@@ -1,10 +1,9 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { FolderPlus } from "lucide-react";
 import withForm from "../../hoc/withForm";
 import { createCategory } from "../../redux/slices/categorySlice";
 
-const CreateCategory = ({ changeHandler, submitHandler, formData }) => {
+const CreateCategory = ({ changeHandler, submitHandler, formData, errors }) => {
   return (
     <div className="container py-5">
       <motion.div
@@ -27,7 +26,7 @@ const CreateCategory = ({ changeHandler, submitHandler, formData }) => {
               </div>
 
               <form onSubmit={submitHandler}>
-                <div className="form-floating mb-4">
+                <div className="form-floating mb-2">
                   <input
                     type="text"
                     className="form-control"
@@ -39,6 +38,27 @@ const CreateCategory = ({ changeHandler, submitHandler, formData }) => {
                     required
                   />
                   <label htmlFor="category_name">Category Name</label>
+                  {errors.category_name && (
+                    <p className="text-danger small">{errors.category_name}</p>
+                  )}
+                </div>
+
+                <div className="form-floating mb-4">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="HSN"
+                    name="HSN"
+                    placeholder="Enter the HSN"
+                    onChange={changeHandler}
+                    value={formData.HSN}
+                    required
+                  />
+
+                  <label htmlFor="category_name">HSN</label>
+                  {errors.HSN && (
+                    <p className="text-danger small">{errors.HSN}</p>
+                  )}
                 </div>
 
                 <motion.button
@@ -61,7 +81,8 @@ const CreateCategory = ({ changeHandler, submitHandler, formData }) => {
 
 export default withForm(
   CreateCategory,
-  { category_name: "" },
+  { category_name: "", HSN: "" },
   createCategory,
-  "/dashboard/categories"
+  "/dashboard/categories",
+  "category"
 );

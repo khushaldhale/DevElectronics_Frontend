@@ -1,3 +1,18 @@
+
+@media print {
+    table, th, td {
+        border: 1px solid black !important;
+        border-collapse: collapse !important;
+    }
+}
+
+table, th, td {
+    border: 1px solid black !important;
+    border-collapse: collapse !important;
+}
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

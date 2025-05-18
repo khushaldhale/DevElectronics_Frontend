@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import {
   Package,
   PlusCircle,
-  LayoutDashboard,
+  House,
+  LaptopMinimalCheck,
   Settings,
   LogOut,
   ReceiptText,
-  ChartColumnStacked,
+  Columns as ChartColumnStacked,
   BadgePlus,
 } from "lucide-react";
 import Logo from "../components/layout/Logo";
@@ -19,9 +20,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const userInfo = useSelector((state) => {
-    return state.auth.userInfo;
-  });
+  const userInfo = useSelector((state) => state.auth.userInfo);
 
   const navLinkClass = ({ isActive }) =>
     `d-flex align-items-center py-3 px-4 text-decoration-none ${
@@ -34,11 +33,11 @@ const Dashboard = () => {
         <div className="row">
           {/* Sidebar */}
           <motion.div
-            className="col-auto min-vh-100 bg-white shadow-sm p-4"
+            className="col-auto position-fixed start-0 min-vh-100 bg-white shadow-sm p-4 overflow-auto"
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            style={{ width: "280px" }}
+            style={{ width: "280px", zIndex: 1030, maxHeight: "100vh" }}
           >
             <div className="mb-5">
               <Logo size="md" />
@@ -46,13 +45,6 @@ const Dashboard = () => {
 
             <nav className="mb-5">
               <div className="text-muted small mb-3">MAIN MENU</div>
-              {/*  willl show analytics of sales later on here */}
-
-              {/* <NavLink to="/dashboard" end className={navLinkClass}>
-                <LayoutDashboard size={20} className="me-3" />
-                Dashboard Overview
-              </NavLink> */}
-
               <NavLink to="/dashboard/items" end className={navLinkClass}>
                 <Package size={20} className="me-3" />
                 Manage Items
@@ -60,6 +52,10 @@ const Dashboard = () => {
               <NavLink to="/dashboard/items/add" end className={navLinkClass}>
                 <PlusCircle size={20} className="me-3" />
                 Add New Item
+              </NavLink>
+              <NavLink to="/dashboard/bills" end className={navLinkClass}>
+                <ReceiptText size={20} className="me-3" />
+                Manage Bills
               </NavLink>
               <NavLink
                 to="/dashboard/bill/generate"
@@ -69,12 +65,10 @@ const Dashboard = () => {
                 <PlusCircle size={20} className="me-3" />
                 Generate Bill
               </NavLink>
-
-              <NavLink to="/dashboard/bills" end className={navLinkClass}>
-                <ReceiptText size={20} className="me-3" />
-                Manage Bills
+              <NavLink to="/dashboard/categories" end className={navLinkClass}>
+                <ChartColumnStacked size={20} className="me-3" />
+                Manage Categories
               </NavLink>
-
               <NavLink
                 to="/dashboard/categories/create"
                 end
@@ -83,33 +77,19 @@ const Dashboard = () => {
                 <BadgePlus size={20} className="me-3" />
                 Create Category
               </NavLink>
-
-              <NavLink to="/dashboard/categories" end className={navLinkClass}>
-                <ChartColumnStacked size={20} className="me-3" />
-                Manage Categories
+              <NavLink to="/dashboard/brands" end className={navLinkClass}>
+                <LaptopMinimalCheck size={20} className="me-3" />
+                Manage Brands
+              </NavLink>
+              <NavLink
+                to="/dashboard/brands/create"
+                end
+                className={navLinkClass}
+              >
+                <PlusCircle size={20} className="me-3" />
+                Create Brand
               </NavLink>
             </nav>
-
-            <div className="mt-auto">
-              <div className="text-muted small mb-3">SETTINGS</div>
-              <button className="w-100 d-flex align-items-center py-3 px-4 text-decoration-none text-muted rounded-3 mb-2">
-                <Settings size={20} className="me-3" />
-                Account Settings
-              </button>
-              <button
-                onClick={() => {
-                  dispatch(logout()).then((action) => {
-                    if (action.payload.success) {
-                      navigate("/login");
-                    }
-                  });
-                }}
-                className="w-100 d-flex align-items-center py-3 px-4 text-decoration-none text-danger rounded-3"
-              >
-                <LogOut size={20} className="me-3" />
-                Logout
-              </button>
-            </div>
           </motion.div>
 
           {/* Main Content */}
@@ -118,55 +98,40 @@ const Dashboard = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
+            style={{ marginLeft: "280px" }}
           >
             <div className="p-4">
-              {/* Header */}
-              <div className="d-flex justify-content-between align-items-center mb-5">
+              <div
+                className="d-flex justify-content-between align-items-center mb-2 bg-white shadow-sm p-3 fixed-top"
+                style={{ zIndex: 1040, marginLeft: "280px", height: "70px" }}
+              >
                 <div>
-                  <h1 className="h3 fw-bold mb-2">Dashboard</h1>
                   <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb mb-0">
-                      <li className="breadcrumb-item">
-                        <a href="#" className="text-decoration-none text-muted">
-                          Home
-                        </a>
-                      </li>
-                      <li
-                        className="breadcrumb-item active"
-                        aria-current="page"
-                      >
-                        Dashboard
-                      </li>
-                    </ol>
+                    <NavLink to="/" className="text-decoration-none text-muted">
+                      <House size={20} className="me-2" /> Home
+                    </NavLink>
                   </nav>
                 </div>
-
                 <div className="d-flex align-items-center">
-                  <div className="position-relative me-3">
-                    <img
-                      src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                      alt="Admin"
-                      className="rounded-circle"
-                      width="40"
-                      height="40"
-                      style={{ objectFit: "cover" }}
-                    />
-                    <span
-                      className="position-absolute bottom-0 end-0 bg-success rounded-circle border border-white"
-                      style={{ width: "10px", height: "10px" }}
-                    ></span>
-                  </div>
-                  <div>
-                    <h6 className="mb-0 fw-semibold">
-                      {userInfo.fname + "  " + userInfo.lname}
-                    </h6>
-                    <small className="text-muted">{userInfo.accountType}</small>
-                  </div>
+                  <button
+                    onClick={() => {
+                      dispatch(logout()).then((action) => {
+                        if (action.payload.success) {
+                          navigate("/");
+                        }
+                      });
+                    }}
+                    className="btn btn-outline-danger w-100 d-flex align-items-center py-3 px-4 text-decoration-none text-danger rounded-3"
+                  >
+                    <LogOut size={20} className="me-3" />
+                    Logout
+                  </button>
                 </div>
               </div>
-
-              {/* Content Area */}
-              <div className="bg-white rounded-4 shadow-sm p-4">
+              <div
+                className="bg-white rounded-4 shadow-sm p-4"
+                style={{ marginTop: "80px" }}
+              >
                 <Outlet />
               </div>
             </div>

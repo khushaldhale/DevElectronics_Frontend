@@ -158,7 +158,7 @@ const Services = () => {
                 <div className="col-lg-6">
                   <div className="position-relative">
                     <img
-                      src="https://images.pexels.com/photos/4156467/pexels-photo-4156467.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                      src="/lady.webp"
                       alt="Custom audio setup"
                       className="img-fluid"
                     />

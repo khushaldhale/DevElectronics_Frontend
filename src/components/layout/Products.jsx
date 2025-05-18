@@ -47,7 +47,7 @@ const Products = () => {
                       alt={item.item_name}
                       style={{
                         height: "250px",
-                        objectFit: "cover",
+                        objectFit: "contain",
                       }}
                     />
                   </div>
@@ -60,7 +60,7 @@ const Products = () => {
                     </p>
 
                     <p className="card-text text-muted ">
-                      {item.price.toFixed(2)}
+                      {item.item_price.toFixed(2)}
                     </p>
                   </div>
                 </div>

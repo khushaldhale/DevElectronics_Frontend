@@ -7,8 +7,9 @@ import Logo from "../components/layout/Logo";
 import { useSelector } from "react-redux";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorDisplay from "../components/ErrorDisplay";
+import { useLocation } from "react-router-dom";
 
-const Login = ({ changeHandler, submitHandler, formData }) => {
+const Login = ({ changeHandler, submitHandler, formData, errors }) => {
   const isLoading = useSelector((state) => {
     return state?.auth?.isLoading;
   });
@@ -65,6 +66,9 @@ const Login = ({ changeHandler, submitHandler, formData }) => {
                         Email Address
                       </label>
                     </div>
+                    {errors.email && (
+                      <p className="text-danger small">{errors.email}</p>
+                    )}
                   </motion.div>
 
                   <motion.div
@@ -91,6 +95,9 @@ const Login = ({ changeHandler, submitHandler, formData }) => {
                         Password
                       </label>
                     </div>
+                    {errors.password && (
+                      <p className="text-danger small">{errors.password}</p>
+                    )}
                   </motion.div>
 
                   <motion.div
@@ -147,5 +154,6 @@ export default withForm(
     password: "",
   },
   login,
-  "/dashboard/items"
+  "/dashboard/items",
+  "login"
 );

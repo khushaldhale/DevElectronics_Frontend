@@ -66,7 +66,7 @@ export const authSlice = createSlice(
 					state.isLoading = false;
 					state.isError = false;
 
-					console.log(" action is  : ", action.payload)
+
 					let data = {
 						fname: action?.payload?.data?.fname,
 						lname: action?.payload?.data?.lname,

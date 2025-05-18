@@ -10,6 +10,7 @@ import {
   getAllCategories,
   getItemsByCategory,
 } from "../../redux/slices/categorySlice";
+import { IndianRupee, MoveLeft } from "lucide-react";
 
 const Items = () => {
   const items = useSelector((state) => state?.item?.items);
@@ -51,6 +52,16 @@ const Items = () => {
     <div className="container py-4">
       <div className="row">
         <div className="col-12">
+          {required_path === "products" && (
+            <button
+              className="btn btn-outline-primary m-1"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              <MoveLeft></MoveLeft>
+            </button>
+          )}
           <h2 className="text-primary mb-0">
             <i className="bi bi-box me-2"></i>Item List
           </h2>
@@ -114,7 +125,7 @@ const Items = () => {
                     alt={particularItem?.item_name}
                     style={{
                       height: "250px",
-                      objectFit: "cover",
+                      objectFit: "contain",
                     }}
                   />
                 </div>
@@ -127,8 +138,20 @@ const Items = () => {
                   </p>
 
                   <p className="card-text text-muted ">
-                    {particularItem?.price?.toFixed(2)}
+                    <IndianRupee
+                      style={{ height: "25px", width: "18px" }}
+                    ></IndianRupee>{" "}
+                    {particularItem?.item_price?.toFixed(2)}
                   </p>
+
+                  {required_path === "products" && (
+                    <button
+                      className="btn btn-outline-primary w-50"
+                      onClick={() => navigate("/under-dev")}
+                    >
+                      <i className="bi bi-pencil me-2"></i>Buy Now
+                    </button>
+                  )}
 
                   {required_path !== "products" && (
                     <div className="d-flex gap-2 mt-auto">
@@ -181,7 +204,7 @@ const Items = () => {
                           alt={item?.item_name}
                           style={{
                             height: "250px",
-                            objectFit: "cover",
+                            objectFit: "contain",
                           }}
                         />
                       </div>
@@ -194,8 +217,20 @@ const Items = () => {
                         </p>
 
                         <p className="card-text text-muted ">
-                          {item?.price.toFixed(2)}
+                          <IndianRupee
+                            style={{ height: "25px", width: "18px" }}
+                          ></IndianRupee>{" "}
+                          {item?.item_price.toFixed(2)}
                         </p>
+
+                        {required_path === "products" && (
+                          <button
+                            className="btn btn-outline-primary w-50"
+                            onClick={() => navigate("/under-dev")}
+                          >
+                            <i className="bi bi-pencil me-2"></i>Buy Now
+                          </button>
+                        )}
 
                         {required_path !== "products" && (
                           <div className="d-flex gap-2 mt-auto">
@@ -240,7 +275,7 @@ const Items = () => {
           {showItems &&
             (items.length > 0 ? (
               <div className="row g-4">
-                {items.map((item, index) => (
+                {items?.map((item, index) => (
                   <div key={index} className="col-md-6 col-lg-4">
                     <div className="card h-100 shadow hover-shadow transition-all">
                       <div className="position-relative">
@@ -253,7 +288,7 @@ const Items = () => {
                           alt={item?.item_name}
                           style={{
                             height: "250px",
-                            objectFit: "cover",
+                            objectFit: "contain",
                           }}
                         />
                       </div>
@@ -266,8 +301,20 @@ const Items = () => {
                         </p>
 
                         <p className="card-text text-muted ">
-                          {item?.price.toFixed(2)}
+                          <IndianRupee
+                            style={{ height: "25px", width: "18px" }}
+                          ></IndianRupee>{" "}
+                          {item?.item_price?.toFixed(2)}
                         </p>
+
+                        {required_path === "products" && (
+                          <button
+                            className="btn btn-outline-primary w-50"
+                            onClick={() => navigate("/under-dev")}
+                          >
+                            <i className="bi bi-pencil me-2"></i>Buy Now
+                          </button>
+                        )}
 
                         {required_path !== "products" && (
                           <div className="d-flex gap-2 mt-auto">

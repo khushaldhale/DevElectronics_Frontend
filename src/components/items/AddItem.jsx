@@ -12,10 +12,7 @@ import { motion } from "framer-motion";
 import { ImagePlus, Package } from "lucide-react";
 import LoadingSpinner from "../LoadingSpinner";
 import ErrorDisplay from "../ErrorDisplay";
-
-//  update is having so many problems,  at the time of update,
-//  item info and item img not being set up
-//  have to  find the solution for the same
+import { getAllCompanies } from "../../redux/slices/companySlice";
 
 const AddItem = ({
   changeHandler,
@@ -23,6 +20,7 @@ const AddItem = ({
   formData,
   setFormData,
   imageHandler,
+  errors,
 }) => {
   const location = useLocation();
   const arrayPath = location.pathname.split("/");
@@ -32,6 +30,10 @@ const AddItem = ({
   const [previewImage, setPreviewImage] = useState(null);
   const categories = useSelector((state) => {
     return state?.category?.categories;
+  });
+
+  const companies = useSelector((state) => {
+    return state?.company?.companies;
   });
 
   const isLoading = useSelector((state) => {
@@ -46,6 +48,9 @@ const AddItem = ({
       dispatch(particularItem({ _id: params.id })).then((action) => {
         if (action?.payload?.success) {
           setFormData(action?.payload?.data);
+          dispatch(
+            getAllCompanies({ category_id: action?.payload?.data?.category_id })
+          );
           if (action?.payload?.data?.item_img) {
             setPreviewImage(action?.payload?.data?.item_img);
           }
@@ -68,7 +73,6 @@ const AddItem = ({
     }
   };
 
-  console.log("  update data : ", formData);
   if (isLoading) {
     return <LoadingSpinner></LoadingSpinner>;
   }
@@ -113,6 +117,9 @@ const AddItem = ({
                     required
                   />
                   <label htmlFor="item_name">Item Name</label>
+                  {errors.item_name && (
+                    <p className="text-danger small"> {errors.item_name}</p>
+                  )}
                 </div>
 
                 <div className="form-floating mb-3">
@@ -127,6 +134,9 @@ const AddItem = ({
                     required
                   />
                   <label htmlFor="item_desc">Description</label>
+                  {errors.item_desc && (
+                    <p className="text-danger small"> {errors.item_desc}</p>
+                  )}
                 </div>
 
                 <div className="form-floating mb-3">
@@ -135,16 +145,19 @@ const AddItem = ({
                     <input
                       type="number"
                       className="form-control"
-                      id="price"
-                      name="price"
+                      id="item_price"
+                      name="item_price"
                       placeholder="Enter the item price"
                       onChange={changeHandler}
-                      value={formData.price}
+                      value={formData.item_price}
                       min="0"
                       step="0.01"
                       required
                     />
                   </div>
+                  {errors.item_price && (
+                    <p className="text-danger small"> {errors.item_price}</p>
+                  )}
                 </div>
 
                 <div className="form-floating mb-3">
@@ -152,7 +165,13 @@ const AddItem = ({
                     className="form-select"
                     name="category_id"
                     id="category_id"
-                    onChange={changeHandler}
+                    onChange={(event) => {
+                      //   get companies  here
+                      dispatch(
+                        getAllCompanies({ category_id: event.target.value })
+                      );
+                      changeHandler(event);
+                    }}
                     value={formData.category_id}
                     required
                   >
@@ -165,6 +184,36 @@ const AddItem = ({
                       ))}
                   </select>
                   <label htmlFor="category_id">Category</label>
+                  {errors.category_id && (
+                    <p className="text-danger small"> {errors.category_id}</p>
+                  )}
+                </div>
+
+                {/*  when the category is selected we will get companies and
+                 display them  */}
+
+                <div className="form-floating mb-3">
+                  <select
+                    className="form-select"
+                    name="company_id"
+                    id="company_id"
+                    onChange={changeHandler}
+                    value={formData.company_id}
+                    required
+                  >
+                    {/* get companies out here */}
+                    <option value="">Select a company</option>
+                    {companies.length > 0 &&
+                      companies.map((company, index) => (
+                        <option key={index} value={company?._id}>
+                          {company?.company_name}
+                        </option>
+                      ))}
+                  </select>
+                  <label htmlFor="company_id">Company</label>
+                  {errors.company_id && (
+                    <p className="text-danger small"> {errors.company_id}</p>
+                  )}
                 </div>
 
                 <div className="mb-4">
@@ -201,6 +250,7 @@ const AddItem = ({
                         name="item_img"
                         onChange={handleImageChange}
                         accept="image/*"
+                        {...(requiredPath !== "update" && { required: true })}
                       />
                       <small className="text-muted d-block mt-2">
                         Recommended: Square image (1:1 ratio) for best display
@@ -235,12 +285,14 @@ const AddItemWrapper = (props) => {
     {
       item_name: "",
       item_desc: "",
-      price: "",
+      item_price: "",
       item_img: null,
       category_id: "",
+      company_id: "",
     },
     isUpdate ? updateItem : createItem,
-    "/dashboard/items"
+    "/dashboard/items",
+    "items"
   );
   return <DynamicForm {...props} />;
 };

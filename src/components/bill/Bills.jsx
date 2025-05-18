@@ -33,7 +33,7 @@ const Bills = () => {
       <div className="row">
         <div className="col-12">
           <h2 className="mb-4">Bills & Invoices</h2>
-          {bills.length > 0 ? (
+          {bills?.length > 0 ? (
             <BillDisplay bills={bills} />
           ) : (
             <div className="alert alert-info" role="alert">

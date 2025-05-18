@@ -78,7 +78,7 @@ const AboutUs = () => {
           <div className="col-lg-6">
             <div className="position-relative">
               <img
-                src="https://images.pexels.com/photos/4158/apple-iphone-smartphone-desk.jpg?auto=compress&cs=tinysrgb&w=1600"
+                src="/laptop.webp"
                 alt="Dev Electronics store interior"
                 className="img-fluid rounded-4 shadow"
               />
