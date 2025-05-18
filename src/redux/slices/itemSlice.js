@@ -23,26 +23,28 @@ export const getAllItems = createAsyncThunk("getAllItems", async (_, { rejectWit
 
 export const createItem = createAsyncThunk("createItem", async (data, { rejectWithValue }) => {
 	try {
+		const isFormData = data instanceof FormData;
 
 		const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/items`, {
 			method: "POST",
 			credentials: "include",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(data)
-		})
+			headers: isFormData
+				? undefined // Let browser set Content-Type with proper multipart boundary
+				: {
+					"Content-Type": "application/json"
+				},
+			body: isFormData ? data : JSON.stringify(data)
+		});
 
 		if (!response.ok) {
-			return rejectWithValue(await response.json())
+			return rejectWithValue(await response.json());
 		}
 
-		return await response.json()
+		return await response.json();
+	} catch (error) {
+		return rejectWithValue(error);
 	}
-	catch (error) {
-		return rejectWithValue(error)
-	}
-})
+});
 
 export const deleteItem = createAsyncThunk("deleteItem", async (data, { rejectWithValue }) => {
 	try {
@@ -66,13 +68,20 @@ export const deleteItem = createAsyncThunk("deleteItem", async (data, { rejectWi
 export const updateItem = createAsyncThunk("updateItem", async (data, { rejectWithValue }) => {
 	try {
 
-		const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/items/${data._id}`, {
+		const isFormData = data instanceof FormData;
+
+		let id = isFormData && data.get("_id");
+
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/items/${isFormData ? id : data._id}`, {
 			method: "PUT",
 			credentials: "include",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(data)
+			headers: isFormData
+				? undefined // Let browser set Content-Type with proper multipart boundary
+				: {
+					"Content-Type": "application/json"
+				},
+			body: isFormData ? data : JSON.stringify(data)
+
 		})
 
 		if (!response.ok) {
@@ -106,17 +115,67 @@ export const particularItem = createAsyncThunk("particularItem", async (data, { 
 	}
 })
 
+export const getSuggestions = createAsyncThunk("getSuggestions", async (data, { rejectWithValue }) => {
+	try {
+
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/items/search`, {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(data)
+		})
+
+		if (!response.ok) {
+			return rejectWithValue(await response.json())
+		}
+
+		return await response.json()
+	}
+	catch (error) {
+		return rejectWithValue(error)
+	}
+})
+
+
+export const getItemsByCompany = createAsyncThunk("getItemsByCompany", async (data, { rejectWithValue }) => {
+	try {
+
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/items/company/${data.company_id}`, {
+			method: "GET",
+			credentials: "include"
+		})
+		if (!response.ok) {
+			return rejectWithValue(await response.json())
+		}
+
+		return await response.json()
+
+	}
+	catch (error) {
+		return rejectWithValue(error)
+	}
+})
+
 const initialState = {
 	isLoading: null,
 	isError: null,
 	items: [],
-	particularItem: {}
+	particularItem: {},
+	suggestions: [],
+	company_items: []
 }
 
 export const itemSlice = createSlice(
 	{
 		name: "item",
 		initialState,
+		reducers: {
+			removeSuggestions: (state) => {
+				state.suggestions = []
+			}
+		},
 		extraReducers: (builder) => {
 
 			builder.addCase(getAllItems.pending, (state) => {
@@ -126,8 +185,7 @@ export const itemSlice = createSlice(
 				.addCase(getAllItems.fulfilled, (state, action) => {
 					state.isLoading = false;
 					state.isError = false;
-					console.log("thunk data  : ", action.payload.data)
-					state.items = action.payload.data
+					state.items = action?.payload?.data
 				})
 				.addCase(getAllItems.rejected, (state, action) => {
 					state.isLoading = false;
@@ -143,7 +201,7 @@ export const itemSlice = createSlice(
 				.addCase(createItem.fulfilled, (state, action) => {
 					state.isLoading = false;
 					state.isError = false;
-					state.items = [...state.items, action.payload.data]
+					state.items = [...state.items, action?.payload?.data]
 				})
 				.addCase(createItem.rejected, (state, action) => {
 					state.isLoading = false;
@@ -160,7 +218,7 @@ export const itemSlice = createSlice(
 					state.isLoading = false;
 					state.isError = false;
 					state.items = state.items.filter((item) => {
-						if (action.payload.data._id !== item._id) {
+						if (action?.payload?.data?._id !== item._id) {
 							return true;
 						}
 					})
@@ -179,8 +237,9 @@ export const itemSlice = createSlice(
 				.addCase(updateItem.fulfilled, (state, action) => {
 					state.isLoading = false;
 					state.isError = false;
+
 					state.items = state.items.map((item) => {
-						if (action.payload.data._id == item._id) {
+						if (action?.payload?.data?._id == item._id) {
 							return action.payload.data
 						} else {
 							return item
@@ -202,14 +261,50 @@ export const itemSlice = createSlice(
 				.addCase(particularItem.fulfilled, (state, action) => {
 					state.isLoading = false;
 					state.isError = false;
-					state.particularItem = action.payload.data;
+					state.particularItem = action?.payload?.data;
 				})
 				.addCase(particularItem.rejected, (state, action) => {
+					state.isLoading = false;
+					state.isError = true;
+				})
+
+
+
+			//  loading has to ignore, othwerwise  having unwanted loading component rendering 
+			builder.addCase(getSuggestions.pending, (state) => {
+				// state.isLoading = true;
+				state.isError = false;
+			})
+				.addCase(getSuggestions.fulfilled, (state, action) => {
+					// state.isLoading = false;
+					state.isError = false;
+					state.suggestions = action?.payload?.data;
+				})
+				.addCase(getSuggestions.rejected, (state, action) => {
+					// state.isLoading = false;
+					state.isError = true;
+				})
+
+
+
+			builder.addCase(getItemsByCompany.pending, (state) => {
+				state.isLoading = true;
+				state.isError = false;
+			})
+				.addCase(getItemsByCompany.fulfilled, (state, action) => {
+					state.isLoading = false;
+					state.isError = false;
+					state.company_items = action.payload.data;
+
+				})
+				.addCase(getItemsByCompany.rejected, (state, action) => {
 					state.isLoading = false;
 					state.isError = true;
 				})
 		}
 	}
 )
+
+export const { removeSuggestions } = itemSlice.actions
 
 export default itemSlice.reducer
