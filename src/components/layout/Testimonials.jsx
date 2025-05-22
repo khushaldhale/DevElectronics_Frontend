@@ -118,7 +118,7 @@ const Testimonials = () => {
                           ))}
                       </div>
 
-                      <p className="lead fw-normal mb-4 fst-italic px-lg-5">
+                      <p className="mb-4 px-lg-5 " style={{ fontSize: "18px" }}>
                         "{testimonials[activeIndex].text}"
                       </p>
 

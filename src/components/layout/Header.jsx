@@ -2,22 +2,25 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Logo from "./Logo";
 import { Menu, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Detect scroll and close mobile menu on scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      if (mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [mobileMenuOpen]);
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -63,6 +66,23 @@ const Header = () => {
 
   return (
     <>
+      {/* Mobile Toggle Button Always Visible on Top */}
+      <div
+        className="d-lg-none position-fixed top-0 end-0 mt-2 me-3 z-1035"
+        style={{ zIndex: 1040 }}
+      >
+        <button
+          className={`navbar-toggler border-0 ${
+            scrolled ? "text-dark" : "text-white"
+          }`}
+          type="button"
+          onClick={() => setMobileMenuOpen((prev) => !prev)}
+          aria-label="Toggle navigation"
+        >
+          {mobileMenuOpen ? <X size={28} color="white" /> : <Menu size={28} />}
+        </button>
+      </div>
+
       <motion.nav
         className={`navbar navbar-expand-lg fixed-top ${
           scrolled ? "bg-white shadow" : "bg-transparent"
@@ -75,16 +95,6 @@ const Header = () => {
           <a className="navbar-brand" href="#">
             <Logo size="md" colorScheme={scrolled ? "dark" : "light"} />
           </a>
-
-          <button
-            className={`navbar-toggler border-0 ${
-              scrolled ? "text-dark" : "text-white"
-            }`}
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <Menu size={24} />
-          </button>
 
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
@@ -112,38 +122,25 @@ const Header = () => {
                 </motion.li>
               ))}
 
-              <motion.li
-                className="nav-item"
-                variants={navItemVariants}
-                initial="hidden"
-                animate="visible"
-              >
+              <motion.li className="nav-item" variants={navItemVariants}>
                 <NavLink
                   className={`nav-link ${
                     scrolled ? "text-dark" : "text-white"
                   }`}
-                  to={"/products"}
-                  onClick={() => {
-                    navigate("/products");
-                  }}
+                  to="/products"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Products
                 </NavLink>
               </motion.li>
-              <motion.li
-                className="nav-item"
-                variants={navItemVariants}
-                initial="hidden"
-                animate="visible"
-              >
+
+              <motion.li className="nav-item" variants={navItemVariants}>
                 <NavLink
                   className={`nav-link ${
                     scrolled ? "text-dark" : "text-white"
                   }`}
-                  to={"/login"}
-                  onClick={() => {
-                    navigate("/login");
-                  }}
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   Login
                 </NavLink>
@@ -155,33 +152,23 @@ const Header = () => {
 
       {/* Mobile menu overlay */}
       <motion.div
-        className={`position-fixed top-0 end-0 h-100 bg-dark text-white p-4 d-flex flex-column w-75 z-3 d-lg-none`}
+        className="position-fixed top-0 end-0 h-100 bg-dark text-white p-4 d-flex flex-column w-75 d-lg-none"
         initial="closed"
         animate={mobileMenuOpen ? "open" : "closed"}
         variants={mobileMenuVariants}
         style={{ zIndex: 1030 }}
       >
-        <div className="d-flex justify-content-between align-items-center mb-5">
-          <Logo size="md" colorScheme="light" />
-          <button
-            className="btn text-white border-0"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            <X size={24} />
-          </button>
-        </div>
-
-        <ul className="navbar-nav">
+        <ul className="navbar-nav pt-5">
           {menuItems.map((item, i) => (
             <motion.li
-              className="nav-item mb-3"
+              className="nav-item mb-2"
               key={item.id}
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 * i }}
             >
               <a
-                className="nav-link text-white fs-4"
+                className="nav-link text-white"
                 href={`#${item.id}`}
                 onClick={(e) => {
                   e.preventDefault();
@@ -192,6 +179,26 @@ const Header = () => {
               </a>
             </motion.li>
           ))}
+
+          <motion.li className="nav-item mb-2">
+            <NavLink
+              className="nav-link text-white"
+              to="/products"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Products
+            </NavLink>
+          </motion.li>
+
+          <motion.li className="nav-item">
+            <NavLink
+              className="nav-link text-white"
+              to="/login"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Login
+            </NavLink>
+          </motion.li>
         </ul>
 
         <div className="mt-auto">

@@ -42,7 +42,7 @@ const BillDisplay = ({ bills }) => {
               <i className="fa fa-xing" aria-hidden="true"></i>
               <div key={index} className="card mb-4 shadow-sm">
                 <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                  <h5 className="mb-0">Invoice No: {bill?._id.slice(-6)}</h5>
+                  <h5 className="mb-0">Invoice No: {bill?.bill_id}</h5>
                   <div className="badge bg-light text-primary">
                     Dev Electronics
                   </div>

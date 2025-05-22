@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import SearchBill from "./components/bill/SearchBill.jsx";
 
 const DashBoard = React.lazy(() => import("./pages/DashBoard"));
 const Items = React.lazy(() => import("./components/items/Items"));
@@ -89,6 +90,15 @@ const App = () => {
             element={
               <ProtectedRoute adminRoute={true}>
                 <Bills></Bills>
+              </ProtectedRoute>
+            }
+          ></Route>
+
+          <Route
+            path="bills/search"
+            element={
+              <ProtectedRoute adminRoute={true}>
+                <SearchBill></SearchBill>
               </ProtectedRoute>
             }
           ></Route>

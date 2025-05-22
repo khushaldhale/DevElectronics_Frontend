@@ -49,11 +49,33 @@ export const getAllBills = createAsyncThunk("getAllBills", async (_, { rejectWit
 })
 
 
+export const searchBill = createAsyncThunk("searchBill", async (data, { rejectWithValue }) => {
+	try {
+
+		const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/bills/search/${data.customer_name}`, {
+			method: "GET",
+			credentials: "include"
+		})
+
+		if (!response.ok) {
+			return rejectWithValue(await response.json())
+		}
+
+		return await response.json()
+
+	}
+	catch (error) {
+		return rejectWithValue(error)
+	}
+})
+
+
 
 const initialState = {
 	isLoading: null,
 	isError: null,
-	bills: []
+	bills: [],
+	searchedBills: []
 }
 
 export const billSlice = createSlice(
@@ -89,6 +111,23 @@ export const billSlice = createSlice(
 
 				})
 				.addCase(getAllBills.rejected, (state, action) => {
+					state.isLoading = false;
+					state.isError = true;
+				})
+
+
+
+			builder.addCase(searchBill.pending, (state) => {
+				state.isLoading = true;
+				state.isError = false;
+			})
+				.addCase(searchBill.fulfilled, (state, action) => {
+					state.isLoading = false;
+					state.isError = false;
+					state.searchedBills = action?.payload?.data
+
+				})
+				.addCase(searchBill.rejected, (state, action) => {
 					state.isLoading = false;
 					state.isError = true;
 				})

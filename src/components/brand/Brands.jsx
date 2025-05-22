@@ -39,21 +39,24 @@ const Brands = () => {
         <h2 className="display-5 mb-4">Select Category to View Brands</h2>
       </motion.div>
 
-      <div className="mb-4">
-        <select
-          name="category_id"
-          id="category_id"
-          className="form-select p-3"
-          onChange={changeHandler}
-        >
-          <option value="">Select any category</option>
-          {categories.length > 0 &&
-            categories.map((category, index) => (
-              <option className="p-2" key={index} value={category._id}>
-                {category.category_name}
-              </option>
-            ))}
-        </select>
+      <div className="mb-4 d-flex justify-content-center">
+        <div className="w-100" style={{ maxWidth: "400px" }}>
+          <select
+            name="category_id"
+            id="category_id"
+            className="form-select p-3"
+            onChange={changeHandler}
+            style={{ width: "100%" }}
+          >
+            <option value="">Select any category</option>
+            {categories.length > 0 &&
+              categories.map((category, index) => (
+                <option key={index} value={category._id}>
+                  {category.category_name}
+                </option>
+              ))}
+          </select>
+        </div>
       </div>
 
       {category !== "" && (

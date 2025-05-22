@@ -8,7 +8,7 @@ import {
   getItemsByCategory,
 } from "../../redux/slices/categorySlice";
 import { toast } from "react-toastify";
-import { IndianRupee } from "lucide-react";
+import ItemCard from "../items/ItemCard";
 
 const Categories = () => {
   const categories = useSelector((state) => state?.category?.categories);
@@ -20,7 +20,7 @@ const Categories = () => {
 
   useEffect(() => {
     dispatch(getAllCategories());
-  }, []);
+  }, [dispatch]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -73,17 +73,17 @@ const Categories = () => {
                     <motion.div
                       key={index}
                       variants={itemVariants}
-                      className="col-md-3 border-end"
+                      className="col-12 col-md-6 col-lg-3 border-end"
                     >
                       <div className="p-4">
-                        <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex gap-2 justify-content-between align-items-center">
                           <div className="d-flex align-items-center">
-                            <Package className="text-primary me-3" size={24} />
+                            <Package className="text-primary me-1" size={24} />
                             <span>{category?.category_name}</span>
                           </div>
                           <div>
                             <button
-                              className="btn btn-outline-primary btn-sm me-2"
+                              className="btn btn-outline-primary btn-sm me-1"
                               onClick={() => {
                                 dispatch(
                                   getItemsByCategory({ _id: category?._id })
@@ -144,38 +144,12 @@ const Categories = () => {
                 <div className="row g-4">
                   {particularCatItems.length > 0 ? (
                     particularCatItems.map((item, index) => (
-                      <motion.div
+                      <ItemCard
                         key={index}
-                        className="col-md-3"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                      >
-                        <div className="card h-100 border-0 shadow-sm">
-                          <img
-                            src={item.item_img}
-                            alt={item.item_name}
-                            className="card-img-top"
-                            style={{ height: "200px", objectFit: "cover" }}
-                          />
-                          <div className="card-body">
-                            <h5 className="card-title mb-2">
-                              {item.item_name}
-                            </h5>
-                            <p className="card-text text-muted small mb-3">
-                              {item.item_desc}
-                            </p>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <span className="fs-5 text-primary">
-                                <IndianRupee
-                                  style={{ height: "25px", width: "18px" }}
-                                ></IndianRupee>{" "}
-                                {item.item_price}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
+                        index={index}
+                        item={item}
+                        required_path={"categories"}
+                      />
                     ))
                   ) : (
                     <div className="col-12 text-center py-5">
