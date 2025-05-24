@@ -91,7 +91,7 @@ const AddItem = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="card-body p-4">
+            <div className="card-body p-0 p-sm-4">
               <div className="text-center mb-4">
                 <div className="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
                   <Package size={32} className="text-primary" />

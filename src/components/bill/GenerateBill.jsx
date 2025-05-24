@@ -260,7 +260,7 @@ const GenerateBill = () => {
   return (
     <div className="container py-4">
       <div className="row justify-content-center">
-        <div className="w-75">
+        <div className="w-xs-100 w-sm-75">
           <div className="card shadow-sm">
             <div className="card-body">
               <h2 className="card-title text-center mb-4">Generate Bill</h2>

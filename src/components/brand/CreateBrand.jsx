@@ -26,7 +26,7 @@ const CreateBrand = ({ changeHandler, submitHandler, formData, errors }) => {
       >
         <div className="col-md-8 col-lg-6">
           <div className="card border-0 shadow-sm">
-            <div className="card-body p-4">
+            <div className="card-body p-0 p-sm-4">
               <div className="text-center mb-4">
                 <div className="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
                   <FolderPlus size={32} className="text-primary" />

@@ -27,7 +27,7 @@ const ItemHeader = ({
 
   return (
     <div className="container-fluid mb-3 p-2">
-      <div className="row gy-3 flex-wrap gap-3 justify-content-between p-3 align-items-center">
+      <div className="row gy-3 flex-wrap gap-3 justify-content-between p-0 p-sm-3 align-items-center">
         {/* Logo - always on top in mobile, on the left on larger screens */}
         {required_path === "products" && (
           <div className="col-12 col-md-3 d-flex justify-content-center justify-content-md-start">

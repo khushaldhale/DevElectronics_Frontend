@@ -44,7 +44,7 @@ const Items = () => {
   if (isError) return <ErrorDisplay />;
 
   return (
-    <div style={{ width: "100%", padding: "0 50px" }}>
+    <div style={{ width: "100%", padding: "0 5px" }}>
       {/* Header Row with Logo, Search, and Categories */}
       <ItemHeader
         setCatItems={setCatItems}

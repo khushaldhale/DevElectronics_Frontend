@@ -34,7 +34,7 @@ const Login = ({ changeHandler, submitHandler, formData, errors }) => {
               transition={{ duration: 0.6 }}
               className="card border-0 shadow-lg"
             >
-              <div className="card-body p-5">
+              <div className="card-body p-3 p-sm-5">
                 <div className="text-center mb-5">
                   <Logo size="lg" className="mb-4" />
                   <h2 className="fw-bold mb-3">Welcome Back!</h2>

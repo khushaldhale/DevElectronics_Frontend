@@ -65,7 +65,7 @@ const Dashboard = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             style={{ paddingTop: "80px" }}
           >
-            <div className="bg-white rounded-4 shadow-sm p-4">
+            <div className="bg-white rounded-4 shadow-sm p-0 p-sm-4">
               <Outlet />
             </div>
           </motion.div>
@@ -95,6 +95,7 @@ const Dashboard = () => {
           <div className="text-muted small mb-2">Items</div>
           <NavLink
             to="/dashboard/items"
+            end
             className={navLinkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -102,6 +103,7 @@ const Dashboard = () => {
           </NavLink>
           <NavLink
             to="/dashboard/items/add"
+            end
             className={navLinkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -112,6 +114,7 @@ const Dashboard = () => {
           <div className="text-muted small mb-2">Bills</div>
           <NavLink
             to="/dashboard/bills"
+            end
             className={navLinkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -119,6 +122,7 @@ const Dashboard = () => {
           </NavLink>
           <NavLink
             to="/dashboard/bill/generate"
+            end
             className={navLinkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -127,6 +131,7 @@ const Dashboard = () => {
 
           <NavLink
             to="/dashboard/bills/search"
+            end
             className={navLinkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -137,6 +142,7 @@ const Dashboard = () => {
           <div className="text-muted small mb-2">Categories</div>
           <NavLink
             to="/dashboard/categories"
+            end
             className={navLinkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -144,6 +150,7 @@ const Dashboard = () => {
           </NavLink>
           <NavLink
             to="/dashboard/categories/create"
+            end
             className={navLinkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -154,6 +161,7 @@ const Dashboard = () => {
           <div className="text-muted small mb-2">Brands</div>
           <NavLink
             to="/dashboard/brands"
+            end
             className={navLinkClass}
             onClick={() => setMenuOpen(false)}
           >
@@ -161,6 +169,7 @@ const Dashboard = () => {
           </NavLink>
           <NavLink
             to="/dashboard/brands/create"
+            end
             className={navLinkClass}
             onClick={() => setMenuOpen(false)}
           >

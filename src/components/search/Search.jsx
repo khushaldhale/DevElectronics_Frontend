@@ -27,8 +27,14 @@ const Search = ({ setShowItems, setCatItems, setShowParticularItem }) => {
   }, 300);
 
   const handleInputChange = (event) => {
-    setProduct(event.target.value);
-    autoSuggest(event.target.value);
+    const { name, value } = event.target;
+    setProduct(value);
+
+    if (value.trim() !== "") {
+      autoSuggest(value);
+    } else {
+      return;
+    }
   };
 
   function submitHandler(event) {
