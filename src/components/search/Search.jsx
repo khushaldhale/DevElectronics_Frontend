@@ -35,7 +35,6 @@ const Search = ({ setShowItems, setCatItems, setShowParticularItem }) => {
     event.preventDefault();
     dispatch(particularItem({ _id: productId })).then((action) => {
       if (action.payload.success) {
-        console.log("change the status here ");
         setShowParticularItem(true);
         setCatItems(false);
         setShowItems(false);
@@ -44,31 +43,36 @@ const Search = ({ setShowItems, setCatItems, setShowParticularItem }) => {
   }
 
   return (
-    <div className="container mt-4">
-      <form onSubmit={submitHandler} className="d-flex mb-2">
+    <div>
+      <form
+        onSubmit={submitHandler}
+        className="d-flex align-items-center"
+        style={{ gap: "0.5rem" }}
+      >
         <input
           type="text"
           name="search"
-          placeholder="Enter the name of the item"
-          className="form-control me-2"
+          placeholder="Search item..."
+          className="form-control form-control-md"
+          style={{ maxWidth: "320px" }}
           onChange={handleInputChange}
           value={product}
         />
-        <button className="btn btn-primary">Search Item</button>
+        <button className="btn btn-md btn-primary">Search</button>
       </form>
 
       {suggestions?.length > 0 && (
-        <ul className="list-group">
+        <ul className="list-group mt-1">
           {suggestions.map((element, index) => (
             <li
               key={index}
-              className="list-group-item list-group-item-action"
+              className="list-group-item list-group-item-action py-1 px-2"
               onClick={() => {
                 setProduct(element.item_name);
                 setProductId(element._id);
                 dispatch(removeSuggestions());
               }}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", fontSize: "0.9rem" }}
             >
               {element.item_name}
             </li>

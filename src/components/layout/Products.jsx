@@ -56,7 +56,7 @@ const Products = () => {
                       {item.item_name}
                     </h5>
                     <p className="card-text text-muted mb-3">
-                      {item.item_desc}
+                      {`${item.item_desc.substr(0, 50)}....`}
                     </p>
 
                     <p className="card-text text-muted ">

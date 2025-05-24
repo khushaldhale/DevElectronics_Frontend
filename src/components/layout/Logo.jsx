@@ -1,5 +1,6 @@
 import React from "react";
 import { Volume2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Logo = ({ className = "", size = "md", colorScheme = "dark" }) => {
   const sizeClasses = {
@@ -7,6 +8,7 @@ const Logo = ({ className = "", size = "md", colorScheme = "dark" }) => {
     md: "text-2xl",
     lg: "text-4xl",
   };
+  const navigate = useNavigate();
 
   const colorClasses = {
     light: "text-white",
@@ -14,7 +16,13 @@ const Logo = ({ className = "", size = "md", colorScheme = "dark" }) => {
   };
 
   return (
-    <div className={`d-flex align-items-center ${className}`}>
+    <div
+      onClick={() => {
+        navigate("/");
+      }}
+      className={`d-flex align-items-center ${className}`}
+      style={{ cursor: "pointer" }}
+    >
       <Volume2
         className={`me-2 ${
           colorScheme === "light" ? "text-accent" : "text-accent"
